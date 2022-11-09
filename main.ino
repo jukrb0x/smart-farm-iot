@@ -84,7 +84,8 @@ void loop()
   {
     digitalWrite(LIGHT, HIGH);
   }
-  //
+  
+  analogWrite(FAN, 0);
   if(celsius > 27.0)
   {
     analogWrite(FAN, 255);
