@@ -8,6 +8,7 @@
 #define TMP36 A5
 #define PhotoR A2
 #define MOISTURE A3
+#define FAN 13
 
 
 // lcd pin = uno pin
@@ -29,7 +30,6 @@ void setup()
   pinMode(TMP36, INPUT);
   
   // photoresistor
-  // -- signal range: [6,679]
   pinMode(PhotoR, INPUT);
   
   // light bulb
@@ -54,28 +54,44 @@ void setup()
   lcd.clear();
   digitalWrite(LIGHT, LOW);
   
+  
 }
 
 void loop()
 {
-  float celcius, lighteness, moisture;
+  float celsius, lightness, moisture;
   float temperatureRaw;
   lcd.setCursor(0, 1);
   lcd.print("SmFS");
-  // 338/165 = 2.048
   
   // gathering data
   for (int i = 0; i <= 100; i++) 
   { 
     moisture = moisture + analogRead(MOISTURE); 
-    temperatureRaw = temperatureRaw + analogRead(TMP36); 
+    temperatureRaw = temperatureRaw + analogRead(TMP36);
+    lightness = lightness + analogRead(PhotoR);
     delay(1); 
   }
   temperatureRaw = temperatureRaw / 100.0;
-  celcius = map(temperatureRaw, 20, 358, -40, 125);
-  moisture = moisture / 100.0; 
-  Serial.println(celcius);
+  celsius = map(temperatureRaw, 20, 358, -40, 125);
+  moisture = moisture / 100.0;
+  lightness = lightness / 100.0;
+
+  // Action
+  // lightness < 400 ? night : daytime
+  digitalWrite(LIGHT, LOW);
+  if(lightness < 400)
+  {
+    digitalWrite(LIGHT, HIGH);
+  }
+  //
+  if(celsius > 27.0)
+  {
+    analogWrite(FAN, 255);
+  }
+  
+  // Print to LCD
   lcd.setCursor(5,1);
-  //Serial.println(moisture);
+
 
 }
