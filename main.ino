@@ -2,7 +2,6 @@
   Smart Farm System
 */
 #include <LiquidCrystal.h>
-
 #include <math.h>
 
 
@@ -23,17 +22,21 @@ const int rs = 12,
   d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+void(* resetBoard) (void) = 0; // software reset
+
 void setup() {
+  delay(1000);
   // debug at 9600 bps
   Serial.begin(9600);
   // ---------------------------
+  pinMode(A4, INPUT);
 
   // soil moisture sensor
   // -- signal range: [0,876]
   pinMode(MOISTURE, INPUT);
 
   // temperature sensor
-  // -- signal range: [20,358]
+  // -- signal range: [20,365]
   pinMode(TMP36, INPUT);
 
   // photoresistor
@@ -42,6 +45,8 @@ void setup() {
   // light bulb
   pinMode(LIGHT, OUTPUT);
   // LED
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_R, OUTPUT);
 
   // cooling system (motor fan)
 
@@ -55,15 +60,20 @@ void setup() {
   lcd.print("SmartFarm System");
   lcd.setCursor(0, 1);
   lcd.print("--- Welcome ---");
-  digitalWrite(LIGHT, HIGH); // light testing
+  // light testing
+  digitalWrite(LIGHT, HIGH);
+  digitalWrite(LED_G, HIGH);
+  digitalWrite(LED_R, HIGH);
   delay(2000);
   lcd.clear();
+  // reset
   digitalWrite(LIGHT, LOW);
+  digitalWrite(LED_G, LOW);
+  digitalWrite(LED_R, LOW);
 
 }
 
 void loop() {
-
   float celsius, lightness, moisture;
   float temperatureRaw;
 
@@ -76,7 +86,7 @@ void loop() {
   }
   temperatureRaw = temperatureRaw / 100.0;
   celsius = map(temperatureRaw, 20, 365, -40, 125);
-  moisture = moisture / 100.0;
+  moisture = (moisture * 1.1) / 100.0;
   lightness = lightness / 100.0;
   lcd.setCursor(0, 0);
   lcd.print("T:      ");
@@ -89,6 +99,7 @@ void loop() {
   // -----------
   // Env Lightness
   // lightness < 400 ? night : daytime
+  // analog range [6,692]
   digitalWrite(LIGHT, LOW);
   if (lightness < 400) {
     digitalWrite(LIGHT, HIGH);
