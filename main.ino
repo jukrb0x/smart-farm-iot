@@ -56,7 +56,7 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("--- Welcome ---");
   digitalWrite(LIGHT, HIGH); // light testing
-  //delay(2000);
+  delay(2000);
   lcd.clear();
   digitalWrite(LIGHT, LOW);
 
