@@ -21,14 +21,15 @@ void setup()
   // ---------------------------
   
   // soil moisture sensor
-  // -- analog signal range: [0,876]
+  // -- signal range: [0,876]
   pinMode(MOISTURE, INPUT);
   
-  // tempature sensor
+  // temperature sensor
+  // -- signal range: [20,358]
   pinMode(TMP36, INPUT);
   
   // photoresistor
-  // -- analog signal range: [6,679]
+  // -- signal range: [6,679]
   pinMode(PhotoR, INPUT);
   
   // light bulb
@@ -57,14 +58,24 @@ void setup()
 
 void loop()
 {
-  float temperature, lighteness, moisture;
+  float celcius, lighteness, moisture;
+  float temperatureRaw;
   lcd.setCursor(0, 1);
   lcd.print("SmFS");
   // 338/165 = 2.048
-
-  temperature = map(analogRead(TMP36), 20, 358, -40, 125);
-  // Serial.println(temperature);
+  
+  // gathering data
+  for (int i = 0; i <= 100; i++) 
+  { 
+    moisture = moisture + analogRead(MOISTURE); 
+    temperatureRaw = temperatureRaw + analogRead(TMP36); 
+    delay(1); 
+  }
+  temperatureRaw = temperatureRaw / 100.0;
+  celcius = map(temperatureRaw, 20, 358, -40, 125);
+  moisture = moisture / 100.0; 
+  Serial.println(celcius);
   lcd.setCursor(5,1);
-  Serial.println(analogRead(MOISTURE));
+  //Serial.println(moisture);
 
 }
