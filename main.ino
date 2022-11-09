@@ -75,15 +75,15 @@ void loop() {
     delay(1);
   }
   temperatureRaw = temperatureRaw / 100.0;
-  celsius = map(temperatureRaw, 20, 358, -40, 125);
+  celsius = map(temperatureRaw, 20, 365, -40, 125);
   moisture = moisture / 100.0;
   lightness = lightness / 100.0;
   lcd.setCursor(0, 0);
   lcd.print("T:      ");
   lcd.setCursor(2, 0);
-  lcd.print(celsius);
-  lcd.setCursor(6, 0);
-  lcd.print(" ");
+  lcd.print((int)celsius);
+  lcd.setCursor(5, 0);
+  lcd.print("  ");
 
   // Actions
   // -----------
@@ -92,32 +92,33 @@ void loop() {
   digitalWrite(LIGHT, LOW);
   if (lightness < 400) {
     digitalWrite(LIGHT, HIGH);
-    lcd.setCursor(15, 0);
-    lcd.print("N");
+    lcd.setCursor(14, 0);
+    lcd.print("NI");
   } else {
-    lcd.setCursor(15, 0);
-    lcd.print("D");
+    lcd.setCursor(14, 0);
+    lcd.print("DA");
 
   }
 
   // -----------
   // Env Temperature
-  lcd.setCursor(7, 0);
+  lcd.setCursor(6, 0);
   lcd.print("FAN:   ");
   analogWrite(FAN, 0);
   if (celsius > 27.0) {
     analogWrite(FAN, 255);
-    lcd.setCursor(7, 0);
+    lcd.setCursor(6, 0);
     lcd.print("FAN:ON ");
   } else {
-    lcd.setCursor(7, 0);
+    lcd.setCursor(6, 0);
     lcd.print("FAN:OFF ");
   }
 
   // -----------
   // Soil Moisture
   lcd.setCursor(0, 1);
-  lcd.print("MTR:");
+  lcd.print("MTR:    ");
+  lcd.setCursor(4, 1);
   lcd.print((int) moisture);
   lcd.setCursor(8, 1);
   lcd.print("IRG:   ");
