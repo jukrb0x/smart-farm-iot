@@ -2,6 +2,7 @@
   Smart Farm System
 */
 #include <LiquidCrystal.h>
+
 #include <math.h>
 
 
@@ -102,12 +103,15 @@ void loop() {
   // -----------
   // Env Temperature
   lcd.setCursor(7, 0);
-  lcd.print("FAN:OFF");
+  lcd.print("FAN:   ");
   analogWrite(FAN, 0);
   if (celsius > 27.0) {
     analogWrite(FAN, 255);
     lcd.setCursor(7, 0);
     lcd.print("FAN:ON ");
+  } else {
+    lcd.setCursor(7, 0);
+    lcd.print("FAN:OFF ");
   }
 
   // -----------
