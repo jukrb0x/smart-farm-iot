@@ -120,7 +120,7 @@ void loop() {
   analogWrite(LED_G, 0);
   analogWrite(LED_R, 0);
   if (moisture < 900.0)
-  // the sensor in tinkercad max at aournd 983
+  // the sensor in tinkercad max at aournd 893
   {
 
     lcd.setCursor(8, 1);
