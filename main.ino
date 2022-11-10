@@ -136,13 +136,13 @@ void loop() {
     lcd.setCursor(6, 0);
     lcd.print("FAN:   ");
     if (celsius > 27.0) {
-        analogWrite(FAN, 155);
+        analogWrite(FAN, 155); // Fan Power Level 1
         lcd.setCursor(6, 0);
         lcd.print("FAN:L1 ");
         if (celsius > 40.0) {
             analogWrite(FAN, 255);
             lcd.setCursor(6, 0);
-            lcd.print("FAN:L2 ");
+            lcd.print("FAN:L2 "); // Fan Power Level Maximum
         }
     } else {
         analogWrite(FAN, 0);
