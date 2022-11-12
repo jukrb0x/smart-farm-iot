@@ -1,5 +1,5 @@
 # Smart Farm System (SmFS)
-A simple IoT project that can automate the facilities (such as lights, cooling system, irrigation system)according to the sensors in the smart farm. Based on Arduino Uno R3.
+A simple IoT project that can automate the facilities (such as lights, cooling system, irrigation system) according to the sensors in the smart farm. Based on Arduino Uno R3.
 
 ![overview](docs/overview.png)
 
