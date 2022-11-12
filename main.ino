@@ -87,7 +87,7 @@ void loop() {
     delay(1000); // working frequency
     lcd.setCursor(15, 1);
     lcd.print(" ");
-    float celsius, lightness, moisture;
+    float celsius, brightnesss, moisture;
     float temperatureRaw;
 
     // DATA GATHERING
@@ -95,13 +95,13 @@ void loop() {
     for (int i = 0; i <= 100; i++) {
         moisture = moisture + analogRead(MOISTURE);
         temperatureRaw = temperatureRaw + analogRead(TMP36);
-        lightness = lightness + analogRead(PHOTO_R);
+        brightnesss = brightnesss + analogRead(PHOTO_R);
         delay(1);
     }
     temperatureRaw = temperatureRaw / 100.0;
     celsius = map(temperatureRaw, 20, 365, -40, 125);
     moisture = (moisture * 1.1) / 100.0;
-    lightness = lightness / 100.0;
+    brightnesss = brightnesss / 100.0;
 
     // display temperature
     lcd.setCursor(0, 0);
@@ -113,11 +113,11 @@ void loop() {
 
     // SMART FARM ACTIONS
     // -----------
-    // Env Lightness
+    // Env brightnesss
     // -----------
-    // lightness < 400 ? night : daytime
+    // brightnesss < 400 ? night : daytime
     // analog range [6,692]
-    if (lightness < 400) {
+    if (brightnesss < 400) {
         // lightbulb ON
         digitalWrite(LIGHT, HIGH);
         lcd.setCursor(14, 0);
