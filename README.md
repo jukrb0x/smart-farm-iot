@@ -3,6 +3,8 @@ A simple IoT project that can automate the facilities (such as lights, cooling s
 
 ![overview](docs/overview.png)
 
+> the slide-switch should not be here for the real-world design, because the Arduino never stops once it starts.
+
 ## Main Components
 - LCD 16x2
 - Photoresistor
